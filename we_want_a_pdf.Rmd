@@ -1,30 +1,67 @@
 ---
-title: "We_want_a_pdf"
-author: "collective"
-date: "2022-10-05"
-output: html_document
+title: "test"
+author: "Aldo Tapia & Olivier Leroy"
+date: "2022-10-04"
+output:
+  bookdown::pdf_document2:
+    keep_tex: yes
+    compact-title: false
+    includes:
+      in_header: preamble.tex
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# Goal
+
+This is just a quick workflow to use cool annotations for equations thanks to the latex package [annotate-equations](https://github.com/st--/annotate-equations) from ST John  )http://www.infinitecuriosity.org/).
+
+# How-to
+
+1. In your project create a `.tex` file (here `preamble.tex`) that contains: 
+
+```{latex, eval=FALSE}
+\usepackage{annotate-equations}
+
+%\usepackage{showexpl} % LTXexample
+\usepackage[skins,listings]{tcolorbox}
+\newtcblisting{LTXexample}[1][]{%
+    colframe=black!20,
+    colback=black!10,
+    coltitle=red!50!yellow!3!white,
+    bicolor,colbacklower=white,
+    fonttitle=\sffamily\bfseries,
+    %  listing options={escapeinside=\`\`},
+    %sidebyside,
+    text above listing,
+    #1}
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+2. Add `annotate-equations.sty` to your repository
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{bash, eval=FALSE}
+wget https://raw.githubusercontent.com/st--/annotate-equations/main/annotate-equations.sty
 ```
 
-## Including Plots
+3. Modify your Rmd header (`.yaml`)
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{yaml, eval=FALSE}
+title: "test"
+author: "Aldo Tapia & Olivier Leroy"
+date: "2022-10-04"
+output:
+  bookdown::pdf_document2:
+    keep_tex: yes
+    compact-title: false
+    includes:
+      in_header: preamble.tex
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+4. Write some Tex!
+
+\vspace{2cm}
+
+\begin{equation*}
+    i \tikzmarknode{hbar}{\mathstrut\hbar} \frac{\partial}{\partial t} \eqnmarkbox[blue]{Psi1}{\Psi(x, t)} = \eqnmark[red]{Hhat}{\hat{H}} \eqnmarkbox[blue]{Psi2}{\Psi(x, t)}
+\end{equation*} \annotate[yshift=3em]{above}{hbar}{$\hbar = \frac{h}{2\pi}$, reduced Planck constant} \annotate[yshift=1em]{above}{Hhat}{Hamilton operator} \annotatetwo[yshift=-1em]{below}{Psi1}{Psi2}{Wave function}
+
