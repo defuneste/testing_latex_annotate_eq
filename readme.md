@@ -1,6 +1,6 @@
 This is just a collection of files with a setup to use a very cool annotations package from latex in Rmd. 
 
-@aldotepia (https://github.com/aldotapia) provided the first version of the code
+[aldotepia](https://github.com/aldotapia) provided the first version of the code
 
 The package can be find here: https://github.com/st--/annotate-equations
 

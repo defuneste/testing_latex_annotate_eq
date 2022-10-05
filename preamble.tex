@@ -1,0 +1,14 @@
+\usepackage{annotate-equations}
+
+%\usepackage{showexpl} % LTXexample
+\usepackage[skins,listings]{tcolorbox}
+\newtcblisting{LTXexample}[1][]{%
+    colframe=black!20,
+    colback=black!10,
+    coltitle=red!50!yellow!3!white,
+    bicolor,colbacklower=white,
+    fonttitle=\sffamily\bfseries,
+    %  listing options={escapeinside=\`\`},
+    %sidebyside,
+    text above listing,
+    #1}
