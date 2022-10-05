@@ -1,0 +1,28 @@
+---
+title: "We want html"
+author: "collective"
+date: "2022-10-05"
+output: html_document
+---
+
+
+We are using latex to generate pdf (ie at one point the `.md` is converted to a `.tex`) so we do not have trouble to add latex inside the Rmd. 
+
+If we want to annotate our equations we will need to generate an image and insert it in our document. 
+
+
+## Small test with a circle
+
+```{r, engine='tikz', fig.cap = "test tikz", fig.ext = 'png'}
+\begin{tikzpicture}
+ \draw (0,0) circle (2cm);
+\end{tikzpicture}
+```
+
+## Test with equations
+
+```{r, engine='tikz', fig.cap = "test tikz", fig.ext = 'png', engine.opts = list(template = "tikz2pdf_annotate.tex")}
+\begin{equation*}
+    i \tikzmarknode{hbar}{\mathstrut\hbar} \frac{\partial}{\partial t} \eqnmarkbox[blue]{Psi1}{\Psi(x, t)} = \eqnmark[red]{Hhat}{\hat{H}} \eqnmarkbox[blue]{Psi2}{\Psi(x, t)}
+\end{equation*} \annotate[yshift=3em]{above}{hbar}{$\hbar = \frac{h}{2\pi}$, reduced Planck constant} \annotate[yshift=1em]{above}{Hhat}{Hamilton operator} \annotatetwo[yshift=-1em]{below}{Psi1}{Psi2}{Wave function}
+```
