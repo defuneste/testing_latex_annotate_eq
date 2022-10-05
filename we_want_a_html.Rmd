@@ -1,0 +1,78 @@
+---
+title: "test"
+author: "Aldo Tapia & Olivier Leroy"
+date: "2022-10-05"
+output: html_document
+---
+
+# Goal
+
+This is just a quick workflow to use cool annotations for equations thanks to the latex package [annotate-equations](https://github.com/st--/annotate-equations) from ST John  )http://www.infinitecuriosity.org/).
+
+# How-to
+
+So far, the workaround to generate annotations for equations with html output is using TikZ  engine.
+
+1. Create a custom TikZ template:
+
+The default template ('tikz2pdf.tex') contains the following content:
+
+```
+\documentclass[
+%% TIKZ_CLASSOPTION %%
+]{standalone}
+\usepackage{amsmath}
+\usetikzlibrary{matrix}
+%% EXTRA_TIKZ_PREAMBLE_CODE %%
+\begin{document}
+%% TIKZ_CODE %%
+\end{document}
+```
+
+For using annotate-equation package, the template should include at least `\usepackage{annotate-equations}`.
+
+Also, compilation fails when using annotations in a stantalone document class without geometry. The solution is defining the geometry with custom extent and margins (considering the space for annotations).
+
+```
+\documentclass[
+%% TIKZ_CLASSOPTION %%
+float=true, crop=false
+]{standalone}
+%% EXTRA_TIKZ_PREAMBLE_CODE %%
+\usepackage{amsmath}
+\usepackage{annotate-equations}
+\usepackage[paperheight=1.5in,paperwidth=5in,top=0.5in]{geometry}
+\usepackage[skins,listings]{tcolorbox}
+\begin{document}
+%% TIKZ_CODE %%
+\end{document}
+```
+
+2. Add `annotate-equations.sty` to your repository
+
+```{bash, eval=FALSE}
+wget https://raw.githubusercontent.com/st--/annotate-equations/main/annotate-equations.sty
+```
+
+3. Add equations using tikz engine:
+
+A black and white equation (only needs `\usepackage{annotate-equations}` in template)
+
+```{tikz figure1, echo = TRUE, fig.cap = "B&W equation", fig.ext = 'vsg', engine.opts = list(template = "standalone_1x5in.tex")}
+\begin{equation*}
+	\eqnmark{post}{p(\theta | D)} = \frac{\eqnmark{lik}{p(D|\theta)} \eqnmark{prior}{p(\theta)}} {\eqnmark{marglik}{p(D)}}
+\end{equation*}
+\annotate[yshift=2.5em]{above,right}{lik}{likelihood}
+\annotate[yshift=1em]{above,right}{prior}{prior}
+\annotate[yshift=1em]{above,left}{post}{posterior}
+\annotate[yshift=-1em]{below,right}{marglik}{marginal likelihood}
+```
+
+A colorful equation (it needs `\usepackage{annotate-equations}` and `\usepackage[skins,listings]{tcolorbox}`)
+
+```{tikz figure2, echo = TRUE, fig.cap = "Colorful equation", fig.ext = 'vsg', engine.opts = list(template = "standalone_1x5in.tex")}
+\begin{equation*}
+    i \tikzmarknode{hbar}{\mathstrut\hbar} \frac{\partial}{\partial t} \eqnmarkbox[blue]{Psi1}{\Psi(x, t)} = \eqnmark[red]{Hhat}{\hat{H}} \eqnmarkbox[blue]{Psi2}{\Psi(x, t)}
+\end{equation*} \annotate[yshift=3em]{above}{hbar}{$\hbar = \frac{h}{2\pi}$, reduced Planck constant} \annotate[yshift=1em]{above}{Hhat}{Hamilton operator} \annotatetwo[yshift=-1em]{below}{Psi1}{Psi2}{Wave function}
+```
+
