@@ -10,3 +10,7 @@ We have two cases :
 
 2. we want to produce an html
 
+
+## Resources: 
+
+A nice blog post from @andrewheiss [here](https://www.andrewheiss.com/blog/2021/08/27/tikz-knitr-html-svg-fun/) on how to use Tikz in .Rmd. 
